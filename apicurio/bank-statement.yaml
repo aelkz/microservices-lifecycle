@@ -1,0 +1,257 @@
+---
+openapi: 3.0.2
+info:
+  title: bank-statement
+  version: 1.0.0
+  description: Bank Statement API - Microservices Lifecycle
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: raphael abreu
+    url: https://github.com/aelkz/microservices-lifecycle
+    email: rabreu@redhat.com
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+paths:
+  /v1/statement:
+    summary: Get all banking records
+    description: Returns first N banking records specified by the size parameter with
+      page offset specified by page parameter.
+    post:
+      requestBody:
+        description: record
+        content:
+          application/json: {}
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatementRecord'
+          description: 'Statement Record Response  '
+      operationId: add
+      description: Creates new banking record of Withdrawal or Deposit type. Returns
+        created record with id.
+  /v1/report/analytic/{id}:
+    summary: Analytic report of banking records
+    description: Returns first N banking records specified by the size parameter with
+      page offset specified by page parameter.
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org.springframework.data.domain.Page'
+          description: Statement Records Response
+      operationId: getAnalytic
+      description: Returns first N banking records specified by the size parameter
+        with page offset specified by page parameter.
+    parameters:
+    - name: id
+      schema:
+        type: number
+      in: path
+      required: true
+    - name: size
+      description: ""
+      schema:
+        type: number
+      in: header
+      required: false
+    - name: page
+      description: ""
+      schema:
+        type: number
+      in: header
+      required: false
+  /v1/report/custom:
+    summary: Analytic report of banking records
+    description: Returns first N banking records specified by the size parameter with
+      page offset specified by page parameter.
+    post:
+      requestBody:
+        description: record
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatementRecord'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org.springframework.data.domain.Page'
+          description: Statement Records Response
+      operationId: getCustom
+      description: Returns first N banking records specified by the size parameter
+        with page offset specified by page parameter.
+    parameters:
+    - name: size
+      description: ""
+      schema:
+        type: number
+      in: header
+      required: false
+    - name: page
+      description: ""
+      schema:
+        type: number
+      in: header
+      required: false
+  /v1/statement/{id}:
+    summary: Get all banking records
+    description: Returns first N banking records specified by the size parameter with
+      page offset specified by page parameter.
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org.springframework.data.domain.Page'
+          description: Array of Statement Records Response
+      operationId: getAll
+      description: Returns first N banking records specified by the size parameter
+        with page offset specified by page parameter.
+    parameters:
+    - name: id
+      description: ID of banking statement record
+      schema:
+        type: number
+      in: path
+      required: true
+    - name: size
+      description: ""
+      schema:
+        type: number
+      in: header
+      required: false
+    - name: page
+      description: ""
+      schema:
+        type: number
+      in: header
+      required: false
+components:
+  schemas:
+    NewStatementRecord:
+      required:
+      - id
+      - date
+      - description
+      - value
+      - balance
+      - status
+      properties:
+        id:
+          description: ""
+          type: number
+        date:
+          format: date-time
+          description: ""
+          type: string
+        description:
+          description: ""
+          type: string
+        value:
+          format: double
+          description: ""
+          type: number
+        balance:
+          format: double
+          description: ""
+          type: number
+        status:
+          description: ""
+          type: string
+    StatementRecord:
+      allOf:
+      - $ref: '#/components/schemas/NewStatementRecord'
+      - required:
+        - id
+        properties:
+          id:
+            description: ""
+            type: number
+          date:
+            format: date-time
+            description: ""
+            type: string
+          description:
+            description: ""
+            type: string
+          value:
+            format: double
+            description: ""
+            type: number
+          balance:
+            format: double
+            description: ""
+            type: number
+          status:
+            description: ""
+            type: string
+    org.springframework.data.domain.Page:
+      title: Root Type for org.springframework.data.domain.Page
+      description: interface Page<T> extends Slice<T>
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatementRecord'
+        pageable:
+          type: string
+        totalElements:
+          format: int32
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+        last:
+          type: boolean
+        size:
+          format: int32
+          type: integer
+        number:
+          format: int32
+          type: integer
+        first:
+          type: boolean
+        sort:
+          type: object
+          properties:
+            unsorted:
+              type: boolean
+            sorted:
+              type: boolean
+            empty:
+              type: boolean
+        numberOfElements:
+          format: int32
+          type: integer
+        empty:
+          type: boolean
+      example:
+        content: []
+        pageable: INSTANCE
+        totalElements: 0
+        totalPages: 1
+        last: true
+        size: 0
+        number: 0
+        first: true
+        sort:
+          unsorted: true
+          sorted: false
+          empty: true
+        numberOfElements: 0
+        empty: true
+tags:
+- name: microservices
+  description: ""
