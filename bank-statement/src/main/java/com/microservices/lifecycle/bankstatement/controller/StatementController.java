@@ -1,9 +1,9 @@
-package com.microservices.apigateway.security.controller;
+package com.microservices.lifecycle.bankstatement.controller;
 
-import com.microservices.apigateway.security.controller.validator.ExtractValidator;
-import com.microservices.apigateway.security.model.ExtractRecord;
-import com.microservices.apigateway.security.repository.ExtractCustomRespository;
-import com.microservices.apigateway.security.service.ExtractService;
+import com.microservices.lifecycle.bankstatement.controller.validator.ExtractValidator;
+import com.microservices.lifecycle.bankstatement.model.StatementRecord;
+import com.microservices.lifecycle.bankstatement.repository.StatementCustomRespository;
+import com.microservices.lifecycle.bankstatement.service.StatementService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -22,20 +22,20 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "/api", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 @Validated //required for @Valid on method parameters such as @RequesParam, @PathVariable, @RequestHeader
-public class ExtractController extends BaseController {
+public class StatementController extends BaseController {
 
     private static final int DEFAULT_PAGE_SIZE = 10;
-    private static final transient Logger logger = LoggerFactory.getLogger(ExtractController.class);
+    private static final transient Logger logger = LoggerFactory.getLogger(StatementController.class);
 
     @Autowired
-    ExtractService extractService;
+    StatementService statementService;
 
-    @RequestMapping(path = "/v1/extract/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/v1/statement/{id}", method = RequestMethod.GET)
     @ApiOperation(
             value = "Get all banking records",
             notes = "Returns first N banking records specified by the size parameter with page offset specified by page parameter.",
             response = Page.class)
-    public Page<ExtractRecord> getAll(
+    public Page<StatementRecord> getAll(
             @ApiParam("The size of the page to be returned") @RequestParam(required = false) Integer size,
             @ApiParam("Zero-based page index") @RequestParam(required = false) Integer page,
             @PathVariable("id") Long id) {
@@ -52,17 +52,17 @@ public class ExtractController extends BaseController {
         id = 1L;
 
         Pageable pageable = new PageRequest(page, size);
-        Page<ExtractRecord> products = extractService.findAllSorted(pageable);
+        Page<StatementRecord> products = statementService.findAllSorted(pageable);
 
         return products;
     }
 
-    @RequestMapping(path = "/v1/analytic-extract/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/v1/analytic-report/{id}", method = RequestMethod.GET)
     @ApiOperation(
             value = "Analytic report of banking records",
             notes = "Returns first N banking records specified by the size parameter with page offset specified by page parameter.",
             response = Page.class)
-    public Page<ExtractRecord> getAnalytic(
+    public Page<StatementRecord> getAnalytic(
             @ApiParam("The size of the page to be returned") @RequestParam(required = false) Integer size,
             @ApiParam("Zero-based page index") @RequestParam(required = false) Integer page,
             @PathVariable("id") Long id) {
@@ -79,20 +79,20 @@ public class ExtractController extends BaseController {
         id = 1L;
 
         Pageable pageable = new PageRequest(page, size);
-        Page<ExtractRecord> products = extractService.findAllSorted(pageable);
+        Page<StatementRecord> products = statementService.findAllSorted(pageable);
 
         return products;
     }
 
-    @RequestMapping(path = "/v1/custom-extract", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @RequestMapping(path = "/v1/custom-report", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ApiOperation(
             value = "Custom report of banking records",
             notes = "Returns first N banking records specified by the size parameter with page offset specified by page parameter.",
             response = Page.class)
-    public Page<ExtractRecord> getCustom(
+    public Page<StatementRecord> getCustom(
             @ApiParam("The size of the page to be returned") @RequestParam(required = false) Integer size,
             @ApiParam("Zero-based page index") @RequestParam(required = false) Integer page,
-            @Valid @RequestBody ExtractRecord record) {
+            @Valid @RequestBody StatementRecord record) {
 
         if (size == null) {
             size = DEFAULT_PAGE_SIZE;
@@ -104,7 +104,7 @@ public class ExtractController extends BaseController {
 
         Pageable pageable = new PageRequest(page, size);
         // TODO - filter based on record bean
-        Page<ExtractRecord> products = extractService.findAllSorted(pageable);
+        Page<StatementRecord> products = statementService.findAllSorted(pageable);
 
         return products;
     }
@@ -113,11 +113,11 @@ public class ExtractController extends BaseController {
     @ApiOperation(
             value = "Create new banking record",
             notes = "Creates new banking record of Withdrawal or Deposit type. Returns created record with id.",
-            response = ExtractCustomRespository.class)
-    public ResponseEntity<ExtractRecord> add(
-            @Valid @RequestBody ExtractRecord record) {
+            response = StatementCustomRespository.class)
+    public ResponseEntity<StatementRecord> add(
+            @Valid @RequestBody StatementRecord record) {
 
-        record = extractService.save(record);
+        record = statementService.save(record);
         return ResponseEntity.ok().body(record);
     }
 

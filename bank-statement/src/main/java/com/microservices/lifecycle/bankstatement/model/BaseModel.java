@@ -1,4 +1,4 @@
-package com.microservices.apigateway.security.model;
+package com.microservices.lifecycle.bankstatement.model;
 
 import java.io.Serializable;
 

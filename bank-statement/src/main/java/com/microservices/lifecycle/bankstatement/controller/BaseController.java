@@ -1,6 +1,6 @@
-package com.microservices.apigateway.security.controller;
+package com.microservices.lifecycle.bankstatement.controller;
 
-import com.microservices.apigateway.security.controller.error.Error;
+import com.microservices.lifecycle.bankstatement.controller.error.Error;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;

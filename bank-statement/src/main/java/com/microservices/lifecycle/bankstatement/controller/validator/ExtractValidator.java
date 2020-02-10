@@ -1,6 +1,6 @@
-package com.microservices.apigateway.security.controller.validator;
+package com.microservices.lifecycle.bankstatement.controller.validator;
 
-import com.microservices.apigateway.security.model.ExtractRecord;
+import com.microservices.lifecycle.bankstatement.model.StatementRecord;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -9,7 +9,7 @@ public class ExtractValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return ExtractRecord.class.isAssignableFrom(clazz);
+        return StatementRecord.class.isAssignableFrom(clazz);
     }
 
     @Override

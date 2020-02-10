@@ -1,4 +1,4 @@
-package com.microservices.apigateway.security.configuration;
+package com.microservices.lifecycle.bankstatement.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -18,7 +18,7 @@ server:
 # ---------------------------------------------
 spring:
   application:
-    name: ${OPENSHIFT_APP_NAME:extract-api}
+    name: ${OPENSHIFT_APP_NAME:bank-statement-api}
   jpa:
     # log generated sql
     database-platform: org.hibernate.dialect.H2Dialect

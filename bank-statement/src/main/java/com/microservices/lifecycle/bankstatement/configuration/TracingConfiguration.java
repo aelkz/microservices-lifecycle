@@ -1,4 +1,4 @@
-package com.microservices.apigateway.security.configuration;
+package com.microservices.lifecycle.bankstatement.configuration;
 
 import io.jaegertracing.internal.samplers.ConstSampler;
 import io.opentracing.Tracer;

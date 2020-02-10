@@ -1,4 +1,4 @@
-package com.microservices.apigateway.security.model;
+package com.microservices.lifecycle.bankstatement.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -7,11 +7,11 @@ import java.util.Objects;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name="extractSorted",
+        @NamedQuery(name="sortedByDate",
                 query="select er " +
-                        "from ExtractRecord er order by er.date desc")
+                        "from StatementRecord er order by er.date desc")
 })
-public class ExtractRecord extends BaseModel {
+public class StatementRecord extends BaseModel {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -42,9 +42,9 @@ public class ExtractRecord extends BaseModel {
     @NotNull
     private String status;
 
-    public ExtractRecord() { }
+    public StatementRecord() { }
 
-    public ExtractRecord(String status) {
+    public StatementRecord(String status) {
         this.status = status;
     }
 
@@ -100,7 +100,7 @@ public class ExtractRecord extends BaseModel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ExtractRecord that = (ExtractRecord) o;
+        StatementRecord that = (StatementRecord) o;
         return id.equals(that.id) &&
                 date.equals(that.date) &&
                 value.equals(that.value) &&

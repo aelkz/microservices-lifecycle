@@ -1,6 +1,6 @@
-package com.microservices.apigateway.security.repository;
+package com.microservices.lifecycle.bankstatement.repository;
 
-import com.microservices.apigateway.security.model.ExtractRecord;
+import com.microservices.lifecycle.bankstatement.model.StatementRecord;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -12,17 +12,17 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class ExtractRecordRepositoryImpl implements ExtractCustomRespository {
+public class StatementRecordRepositoryImpl implements StatementCustomRespository {
 
     @PersistenceContext
     EntityManager entityManager;
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ExtractRecord> findAllSortedByDate(Pageable pageable) {
-        TypedQuery<ExtractRecord> query = entityManager.createNamedQuery("extractSorted", ExtractRecord.class);
+    public Page<StatementRecord> findAllSortedByDate(Pageable pageable) {
+        TypedQuery<StatementRecord> query = entityManager.createNamedQuery("sortedByDate", StatementRecord.class);
 
-        List<ExtractRecord> list = query.getResultList();
+        List<StatementRecord> list = query.getResultList();
 
         if (list.isEmpty()) {
             return Page.empty();
@@ -32,7 +32,7 @@ public class ExtractRecordRepositoryImpl implements ExtractCustomRespository {
 
         System.out.println(totalRows + " banking record(s) found!");
 
-        Page<ExtractRecord> result = new PageImpl<ExtractRecord>(list, pageable, totalRows);
+        Page<StatementRecord> result = new PageImpl<StatementRecord>(list, pageable, totalRows);
 
         return result;
     }

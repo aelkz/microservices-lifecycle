@@ -1,4 +1,4 @@
-package com.microservices.apigateway.security;
+package com.microservices.lifecycle.bankstatement;
 
 import io.micrometer.core.instrument.config.MeterFilter;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +12,7 @@ import org.springframework.web.filter.CorsFilter;
 import java.util.Collections;
 
 @SpringBootApplication
-public class ExtractApplication {
+public class BankStatementApplication {
 
     /**
      * This filter can be used to exclude specific metrics.
@@ -44,7 +44,7 @@ public class ExtractApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(ExtractApplication.class, args);
+        SpringApplication.run(BankStatementApplication.class, args);
     }
 
 }

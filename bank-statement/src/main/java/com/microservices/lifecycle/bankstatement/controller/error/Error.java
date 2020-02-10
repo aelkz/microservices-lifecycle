@@ -1,4 +1,4 @@
-package com.microservices.apigateway.security.controller.error;
+package com.microservices.lifecycle.bankstatement.controller.error;
 
 public class Error {
 
