@@ -13,6 +13,29 @@
 - APICURIO
 - Microcks
     
+```
+# Deploy parent project on nexus
+export API_NAMESPACE=microservices-dev
+export NEXUS_NAMESPACE=microservices-dev
+export MAVEN_URL=http://$(oc get route nexus3 -n ${NEXUS_NAMESPACE} --template='{{ .spec.host }}')/repository/maven-group/
+export MAVEN_URL_RELEASES=http://$(oc get route nexus3 -n ${NEXUS_NAMESPACE} --template='{{ .spec.host }}')/repository/maven-releases/
+export MAVEN_URL_SNAPSHOTS=http://$(oc get route nexus3 -n ${NEXUS_NAMESPACE} --template='{{ .spec.host }}')/repository/maven-snapshots/
+
+# download maven settings.xml file
+curl -o maven-settings-template.xml -s https://raw.githubusercontent.com/aelkz/microservices-security/master/_configuration/nexus/maven-settings-template.xml
+
+awk -v path="$MAVEN_URL" '/<url>/{sub(/>.*</,">"path"<")}1' maven-settings-template.xml > maven-settings.xml
+rm -fr maven-settings-template.xml
+
+mvn clean package deploy -DnexusReleaseRepoUrl=$MAVEN_URL_RELEASES -DnexusSnapshotRepoUrl=$MAVEN_URL_SNAPSHOTS -s ./maven-settings.xml -e -X -N
+
+# Deploy bank-statement API
+# oc delete all -lapp=bank-statement-api -n ${API_NAMESPACE}
+oc new-app openjdk-8-rhel8:latest~https://github.com/aelkz/microservices-lifecycle.git --name=bank-statement-api --context-dir=/bank-statement --build-env='MAVEN_MIRROR_URL='${MAVEN_URL} -e MAVEN_MIRROR_URL=${MAVEN_URL} -n ${API_NAMESPACE}
+oc patch svc bank-statement-api -p '{"spec":{"ports":[{"name":"http","port":8080,"protocol":"TCP","targetPort":8080}]}}' -n ${API_NAMESPACE}
+oc label svc bank-statement-api monitor=springboot2-api -n ${API_NAMESPACE}
+```   
+ 
 - - - - - - - - - -
 Thanks for reading and taking the time to comment!<br>
 Feel free to create a <b>PR</b><br>
