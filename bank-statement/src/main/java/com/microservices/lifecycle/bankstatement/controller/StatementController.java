@@ -57,7 +57,7 @@ public class StatementController extends BaseController {
         return products;
     }
 
-    @RequestMapping(path = "/v1/analytic-report/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/v1/report/analytic/{id}", method = RequestMethod.GET)
     @ApiOperation(
             value = "Analytic report of banking records",
             notes = "Returns first N banking records specified by the size parameter with page offset specified by page parameter.",
@@ -84,7 +84,7 @@ public class StatementController extends BaseController {
         return products;
     }
 
-    @RequestMapping(path = "/v1/custom-report", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @RequestMapping(path = "/v1/report/custom", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ApiOperation(
             value = "Custom report of banking records",
             notes = "Returns first N banking records specified by the size parameter with page offset specified by page parameter.",
@@ -109,7 +109,7 @@ public class StatementController extends BaseController {
         return products;
     }
 
-    @RequestMapping(path = "/v1/record", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @RequestMapping(path = "/v1/statement", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ApiOperation(
             value = "Create new banking record",
             notes = "Creates new banking record of Withdrawal or Deposit type. Returns created record with id.",
