@@ -57,15 +57,14 @@ public class StatementController extends BaseController {
         return products;
     }
 
-    @RequestMapping(path = "/v1/report/analytic/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/v1/report/analytic", method = RequestMethod.GET)
     @ApiOperation(
             value = "Analytic report of banking records",
             notes = "Returns first N banking records specified by the size parameter with page offset specified by page parameter.",
             response = Page.class)
     public Page<StatementRecord> getAnalytic(
             @ApiParam("The size of the page to be returned") @RequestParam(required = false) Integer size,
-            @ApiParam("Zero-based page index") @RequestParam(required = false) Integer page,
-            @PathVariable("id") Long id) {
+            @ApiParam("Zero-based page index") @RequestParam(required = false) Integer page) {
 
         if (size == null) {
             size = DEFAULT_PAGE_SIZE;
@@ -74,9 +73,6 @@ public class StatementController extends BaseController {
         if (page == null) {
             page = 0;
         }
-
-        // TODO - This is only for demonstration. Will be improved in a later version.
-        id = 1L;
 
         Pageable pageable = new PageRequest(page, size);
         Page<StatementRecord> products = statementService.findAllSorted(pageable);

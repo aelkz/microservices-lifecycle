@@ -40,4 +40,6 @@ chmod +x setup_nexus3.sh
 oc expose dc nexus3 --port=5000 --name=nexus-registry -n ${NEXUS_NAMESPACE}
 
 oc create route edge nexus-registry --service=nexus-registry --port=5000 -n ${NEXUS_NAMESPACE}
+
+oc annotate route nexus3 --overwrite haproxy.router.openshift.io/timeout=5m
 ```
