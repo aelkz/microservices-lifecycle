@@ -36,6 +36,9 @@ oc patch svc bank-statement-api -p '{"spec":{"ports":[{"name":"http","port":8080
 oc label svc bank-statement-api monitor=springboot2-api -n ${API_NAMESPACE}
 ```   
  
+REFERENCES: 
+https://apicurio-studio.readme.io/docs/integrate-microcks-for-mocking-your-api
+ 
 - - - - - - - - - -
 Thanks for reading and taking the time to comment!<br>
 Feel free to create a <b>PR</b><br>
